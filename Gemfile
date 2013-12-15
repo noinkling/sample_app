@@ -3,9 +3,12 @@ ruby '2.0.0'                    # Specified explicitly for Heroku
 #ruby-gemset=railstutorial_rails_4_0
 
 gem 'rails', '4.0.1'
+gem 'pg', '0.15.1'              # PostgreSQL adapter
 gem 'bootstrap-sass', '2.3.2.0' # Bootstrap
 gem 'bcrypt-ruby', '3.1.2'      # Password encryption
-gem 'pg', '0.15.1'              # PostgreSQL adapter
+gem 'faker', '1.1.2'            # Create fake users
+gem 'will_paginate', '3.0.4'    # Pagination
+gem 'bootstrap-will_paginate', '0.0.9'
 
 group :development, :test do
   # gem 'sqlite3', '1.3.8'      # Using PostgreSQL instead
