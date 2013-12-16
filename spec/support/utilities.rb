@@ -14,6 +14,7 @@ def sign_in(user, options={})
   end
 end
 
+# Not used
 def valid_signin(user)
   fill_in "Email",    with: user.email.upcase # .upcase ensures case-insensitivity
   fill_in "Password", with: user.password
@@ -30,7 +31,7 @@ def fill_in_valid_signup_information
   fill_in "Name",         with: "Example User"
   fill_in "Email",        with: "user@example.com"
   fill_in "Password",     with: "foobar"
-  fill_in "Confirmation", with: "foobar"
+  fill_in "Confirm Password", with: "foobar"
 end
 
 RSpec::Matchers.define :have_error_message do |message|

@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :signed_in_user, only: [:index, :edit, :update]
+  before_action :not_signed_in,  only: [:new, :create]
   before_action :correct_user,   only: [:edit, :update]
   before_action :admin_user,     only: :destroy
 
@@ -13,7 +14,12 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new
+    unless signed_in?
+      @user = User.new
+    else
+      flash[:error] = "You are already signed in. Sign out first if you wish to create a new user."
+      redirect_to current_user
+    end
   end
 
   def create
@@ -40,9 +46,15 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).destroy
-    flash[:success] = "User deleted."
-    redirect_to users_url
+    user = User.find(params[:id])
+    unless current_user?(user)
+      user.destroy
+      flash[:success] = "User deleted."
+      redirect_to users_url
+    else
+      flash[:error] = "Admin users cannot delete themselves!"
+      redirect_to user_url(user)
+    end
   end
 
   private
@@ -58,6 +70,12 @@ class UsersController < ApplicationController
       unless signed_in?
         store_location
         redirect_to signin_url, notice: "Please sign in."
+      end
+    end
+
+    def not_signed_in
+      if signed_in?
+        redirect_to current_user, notice: "You are already signed in. Sign out first if you wish to create a new user."
       end
     end
 
